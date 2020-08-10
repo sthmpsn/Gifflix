@@ -50,7 +50,7 @@ $(document).ready(function () {
         let $topicsContentDiv = $("#topics-content"); // Get the "topics-content" div element
         let topicsContent = ""; 
 
-        topicsContent = $(` <div class="topics-img-wrapper d-inline-block mx-2 ">
+        topicsContent = $(` <div class="topics-img-wrapper d-inline-block mx-2">
                                 <img id="${newTopic}" class="topics-img rounded" src="${coverImg}" alt="${newTopic} image">
                                 <div class="topics-caption">
                                     <h3 class="topics-title">${newTopic} Gifs!</h3>
@@ -76,8 +76,8 @@ $(document).ready(function () {
             let imgStillURL = giphyData[i].images.original_still.url;  // Still image URL
             let imgAnimateURL = giphyData[i].images.original.url;  // Animated Gif URL 
 
-            modalBodyContent = $(` <div class="topics-img-wrapper d-inline-block mx-2">
-                                        <img id="${topic}" class="topics-img rounded" src="${imgStillURL}" alt="${topic} image">
+            modalBodyContent = $(` <div class="modal-img-wrapper d-inline-block mx-2">
+                                        <img id="${topic}" class="rounded giphyImg" src="${imgStillURL}" alt="${topic} image">
                                     </div> 
                                 `);
                             
