@@ -1,0 +1,63 @@
+nav .navbar-brand img {
+    width: 115px;
+    height: 47px;
+}
+
+main {
+    // 100 viewport height - Navbar height
+    height: calc(100vh - 73px);  
+}
+
+.row h2 {
+    // Row Headings
+    font-size: 28px;
+}
+
+.row-content{
+    padding: 40px 0 0;
+}
+
+// Topic Images
+.topics-img-wrapper {
+    width: 200px;
+    height: 200px;
+    position: relative;
+    overflow: hidden;
+}
+
+.topics-img-wrapper > .topics-img {
+    width: 100%;
+    height: 100%;
+    transition: all .5s;
+}
+
+.topics-img-wrapper > .topics-caption {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: 0.5s;
+    opacity: 0;
+    background-color: rgba(0,0,0,0);
+}
+
+.topics-img-wrapper > .topics-caption > .topics-title{
+    text-transform: capitalize;
+    margin: 0;
+    font-size: 24px;
+}
+
+.topics-img-wrapper:hover .topics-caption{
+    opacity: 1;
+    background-color: rgba(0,0,0,.5);
+}
+
+.modal-header {
+    background-color: #DC1A27;
+    color: white;
+}
