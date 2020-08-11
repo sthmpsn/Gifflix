@@ -16,15 +16,22 @@ $(document).ready(function () {
     // create the inital Image Wrapper for each topic in the topics Array
     // must use an "async" function so that the we can get the giphy results back and use it
     TOPICS.forEach(async function (topic) {
-        // Get the FIRST Giphy data for each topic
-        let giphyTopicData = await getGiphyImage(topic,1); 
-        // set the first giphy "still" image as the coverImg
-        let coverImg = giphyTopicData[0].images.original_still.url  
+        // Get the FIRST Giphy image for each topic
+        let coverImg = await getCoverImg(topic);  
         
         // Call the below function to generate the "Topics" HTML 
         generateTopicsHTML(topic,coverImg);
 
     });
+
+    async function getCoverImg(topic){
+        // Get the FIRST Giphy data for each topic
+        let giphyTopicData = await getGiphyImage(topic,1); 
+        // set the first giphy "still" image as the coverImg
+        let coverImg = giphyTopicData[0].images.original_still.url 
+
+        return coverImg;
+    }
 
 
 
@@ -91,8 +98,9 @@ $(document).ready(function () {
     
 
 
-    //Even Handling
+    // Even Handling
 
+    // Handle Clicking of a Topic Image
     $(document).on("click", ".topics-img-wrapper", function () {
         if ($(".resultsDiv" === null)) {
             $(".resultsDiv").empty();
@@ -105,39 +113,26 @@ $(document).ready(function () {
 
     });
 
+    // Handle adding a new Topic
+    $(document).on("click", "#addNewTopicBtn", async function () {
+        event.preventDefault();  //Prevent the Submit button from acting like a Submit button and do the following
+        console.log("Add Topic was Clicked"); // Debug purposes
+
+        let customTopic = $("#addNewTopicInput").val();
+
+        if(customTopic){
+            console.log("truthy data was in here");
+            let coverImg = await getCoverImg(customTopic);
+            generateTopicsHTML(customTopic,coverImg); // Add a new topic with associated coverImg
+        }else{
+            console.log("Falsy data");
+        }
+
+    });
+
     
 
 
-
-
-
-    
-
-    // $(document).on("click", ".giphyImg", function () {
-    //     //if img data-state equals "static" then change to "animated" and vice-versa
-    //     let imgObj = $(this)                         // get the image object that was clicked
-    //     let imgState = imgObj.attr("data-state");   // get the current img state
-    //     if (imgState === "still") {
-    //         let animateURL = imgObj.attr("data-animate");
-    //         imgObj.attr("src", animateURL);
-    //         imgObj.attr("data-state", "animated");
-    //     }
-    //     else {
-    //         let stillURL = imgObj.attr("data-still");
-    //         imgObj.attr("src", stillURL);
-    //         imgObj.attr("data-state", "still");
-    //     }
-
-    // });
-
-    // $(document).on("click", "#submit-search", function () {
-    //     event.preventDefault();  //Prevent the Submit button from acting like a Submit button and do the following
-    //     console.log("Add Topic was Clicked");
-    //     let $channelSearch = $("#channelSearch").val();
-    //     console.log($channelSearch);
-    //     getCoverImg($channelSearch);
-
-    // });
 
     
 
