@@ -2,7 +2,7 @@
 let apiKey = "AnVFzv8FXQHu7I3N2iftwX1X5a4cNrCM";
 // Number of Gifs to display for each category
 let NUM_GIFS = 15;
-let TRENDING_LIMIT = 8; 
+let TRENDING_LIMIT = 9; 
 
 // String array of starting topics that will get a button dynamically created for it
 const TOPICS = [
