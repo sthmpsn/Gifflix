@@ -2,6 +2,7 @@
 let apiKey = "AnVFzv8FXQHu7I3N2iftwX1X5a4cNrCM";
 // Number of Gifs to display for each category
 let NUM_GIFS = 15;
+let TRENDING_LIMIT = 8; 
 
 // String array of starting topics that will get a button dynamically created for it
 const TOPICS = [
@@ -24,6 +25,15 @@ $(document).ready(function () {
 
     });
 
+
+    // Load Trending Topics
+    async function getTrending(){
+        let giphyData = await getGiphyImage("Trending", TRENDING_LIMIT);
+        generateTrendingHTML(giphyData);
+
+    }
+
+
     async function getCoverImg(topic){
         // Get the FIRST Giphy data for each topic
         let giphyTopicData = await getGiphyImage(topic,1); 
@@ -38,7 +48,14 @@ $(document).ready(function () {
     function getGiphyImage(search, limit){
         // This function will return a new promise since it depends on external data being retrieved
         return new Promise((resolve,reject) => {
-            let queryURL = "https://api.giphy.com/v1/gifs/search?q=" + search + "&limit=" + limit + "&api_key=" + apiKey;
+            let queryURL = "";
+
+            // If the search = "trending" then we want to get a list of trending gifs and not a search
+            queryURL = (search === "trending") 
+                ? "https://api.giphy.com/v1/gifs/trending" 
+                : "https://api.giphy.com/v1/gifs/search?q=" + search + "&limit=" + limit + "&api_key=" + apiKey;
+
+                console.log("Search String: ", queryURL);
 
             $.ajax({
                 url: queryURL,
@@ -68,6 +85,28 @@ $(document).ready(function () {
         $topicsContentDiv.append(topicsContent);
     }
 
+    // Generate the HTML for the Trending section 
+    function generateTrendingHTML(trendingGifs){
+        console.log("Trending Data: ", trendingGifs);
+        let $trendingContentDiv = $("#trending-content");  // Get the "trending-content" div element
+        let trendingContent = "";
+
+        for (let i= 0; i < trendingGifs.length; i++){
+            let imgAnimateURL = trendingGifs[i].images.original.url;  // Animated Gif URL 
+            let gifTitle = trendingGifs[i].title;
+            console.log("Trending Animated URL: ",imgAnimateURL,"\nGif Title: ",gifTitle);
+            trendingContent =   $(` <div class="trending-img-wrapper m-2">
+                                        <img id="${gifTitle}" class="trending-img rounded" src="${imgAnimateURL}" alt="${gifTitle} image">
+                                    </div> 
+                                `);
+
+            $trendingContentDiv.append(trendingContent);
+        }
+    }
+
+
+
+
 
     let loadGifModal = async (topic) => {
         console.log("In the Load Gif Modal function")
@@ -96,6 +135,9 @@ $(document).ready(function () {
 
     }
     
+
+    getTrending();  // Load the Trending Giphys
+
 
     // *******************
     // *  Even Handling  * 
