@@ -74,7 +74,7 @@ $(document).ready(function () {
         let $topicsContentDiv = $("#topics-content"); // Get the "topics-content" div element
         let topicsContent = ""; 
 
-        topicsContent = $(` <div class="topics-img-wrapper d-inline-block mx-2">
+        topicsContent = $(` <div class="topics-img-wrapper d-inline-block m-2">
                                 <img id="${newTopic}" class="topics-img rounded" src="${coverImg}" alt="${newTopic} image">
                                 <div class="topics-caption">
                                     <h3 class="topics-title text-center">${newTopic} Gifs!</h3>
