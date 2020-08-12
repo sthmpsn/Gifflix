@@ -10,7 +10,7 @@ const TOPICS = [
     "panda"
 ];
 
-// AFTER PAGE LOAD
+// [START] AFTER PAGE LOAD
 $(document).ready(function () {
 
     // create the inital Image Wrapper for each topic in the topics Array
@@ -60,7 +60,7 @@ $(document).ready(function () {
         topicsContent = $(` <div class="topics-img-wrapper d-inline-block mx-2">
                                 <img id="${newTopic}" class="topics-img rounded" src="${coverImg}" alt="${newTopic} image">
                                 <div class="topics-caption">
-                                    <h3 class="topics-title">${newTopic} Gifs!</h3>
+                                    <h3 class="topics-title text-center">${newTopic} Gifs!</h3>
                                 </div>
                             </div> 
                         `);
@@ -84,7 +84,7 @@ $(document).ready(function () {
             let imgAnimateURL = giphyData[i].images.original.url;  // Animated Gif URL 
 
             modalBodyContent = $(` <div class="modal-img-wrapper d-inline-block mx-2">
-                                        <img id="${topic}" class="rounded giphyImg" src="${imgStillURL}" alt="${topic} image">
+                                        <img class="${topic}-gifs rounded giphyImg" src="${imgStillURL}" alt="${topic} image" data-state="still" data-still="${imgStillURL}" data-animate="${imgAnimateURL}" >
                                     </div> 
                                 `);
                             
@@ -97,14 +97,12 @@ $(document).ready(function () {
     }
     
 
-
-    // Even Handling
+    // *******************
+    // *  Even Handling  * 
+    // *******************
 
     // Handle Clicking of a Topic Image
     $(document).on("click", ".topics-img-wrapper", function () {
-        if ($(".resultsDiv" === null)) {
-            $(".resultsDiv").empty();
-        }
 
         let selectedTopic = $(this).children(":first").attr("id");  // Get the first child (the img node) and the "id" attribute of it
         
@@ -112,6 +110,26 @@ $(document).ready(function () {
         loadGifModal(selectedTopic);  
 
     });
+
+    // Handle Clicking of a Giphy Image
+    $(document).on("click", ".giphyImg", function(){
+        let imgObj = $(this);                      // Set imgObj to the current Object being passed
+        let imgState = imgObj.attr("data-state");  // Get the current "data-state" of the image
+        console.log("imgObj:",imgObj,"\nState:", imgState);  // Degub purposes
+
+        // If giphy image state is "still" then set to 
+        if (imgState === "still"){
+            let animateURL = imgObj.attr("data-animate"); // Grab the animated gif URL of the current image
+            imgObj.attr("src",animateURL); // Set the current src attribute to the animated gif URL which will start the animation
+            imgObj.attr("data-state", "animated"); // Set the data-state attribute to "animated" to signify that the animation is active
+        } else{
+            let stillURL = imgObj.attr("data-still"); // Grag the still image URL of the current image
+            imgObj.attr("src", stillURL);  // Set the current src attribute to the still image URL which stops the animation
+            imgObj.attr("data-state", "still");  // Set the data-state attribute to "still" to signify that the still image is active
+        }
+
+    });
+
 
     // Handle adding a new Topic
     $(document).on("click", "#addNewTopicBtn", async function () {
@@ -130,11 +148,6 @@ $(document).ready(function () {
 
     });
 
-    
 
 
-
-    
-
-
-});
+});  // [END] AFTER PAGE LOAD
